@@ -4,8 +4,9 @@ from bs4 import BeautifulSoup
 import json
 from flask import render_template
 
-from scrapers.melee_weapons import scrape_melee_weapons
-from scrapers.ranged_weapons import scrape_ranged_weapons
+from scrapers.weapons.melee_weapons import scrape_melee_weapons
+from scrapers.weapons.ranged_weapons import scrape_ranged_weapons
+from scrapers.weapons.shields import scrape_shields
 
 
 app = Flask(__name__)
@@ -21,6 +22,10 @@ def get_melee_weapons():
 @app.route('/api/v1/ranged-weapons', methods=['GET'])
 def get_ranged_weapons():
     return scrape_ranged_weapons()
+
+@app.route('/api/v1/shields', methods=['GET'])
+def get_shields():
+    return scrape_shields()
 
 if __name__ == '__main__':
     app.run(port=5000)
