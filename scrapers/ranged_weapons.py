@@ -3,9 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-def scrape_melee_weapons():
+def scrape_ranged_weapons():
     
-    url = 'https://deadcells.wiki.gg/wiki/Melee_weapons'
+    url = 'https://deadcells.wiki.gg/wiki/Ranged_weapons'
     response = requests.get(url)
 
     soup = BeautifulSoup(response.text, 'html.parser')
