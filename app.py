@@ -2,10 +2,15 @@ from flask import Flask, jsonify
 import requests
 from bs4 import BeautifulSoup
 import json
+from flask import render_template
 
 app = Flask(__name__)
 
 @app.route('/')
+def index():
+    return render_template('index.html')
+    
+@app.route('/api/v1/weapons', methods=['GET'])
 def scrape_and_return_json():
     
     url = 'https://deadcells.wiki.gg/wiki/Melee_weapons'
@@ -23,15 +28,20 @@ def scrape_and_return_json():
         cols = row.find_all('td')
         cols = [ele.text.strip() for ele in cols]
 
-        img = row.find('img')['src']  
+        images = row.find_all('img')  # Get all images in the row
+        
+        weapon_img = 'https://deadcells.wiki.gg' + images[0]['src']  # Get the source of the first image 
+
+        scaling_img = 'https://deadcells.wiki.gg' + images[1]['src']  # Get the source of the second image
+        
 
         weapon_data = {
             'weapon': cols[1],
             'description': cols[2],
             'blueprint_location': cols[3],
             'base_dps': cols[4],
-            'scaling': scaling,  # Add the scaling value to the weapon_data dictionary
-            'image': img
+            'scaling': scaling_img, 
+            'weapon_img': weapon_img
         }
         data.append(weapon_data)
 
